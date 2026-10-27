@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /customers/{customerId} {
+      function validCustomer() {
+        let data = request.resource.data;
+        return data.keys().hasAll([
+            'certificateNumber', 'date', 'makeBodyType', 'importerName',
+            'declarationNumber', 'model', 'country', 'chassisNo', 'engineNo',
+            'color', 'remarks', 'userId', 'status', 'createdAt', 'updatedAt'
+          ])
+          && data.keys().hasOnly([
+            'certificateNumber', 'date', 'makeBodyType', 'importerName',
+            'declarationNumber', 'model', 'country', 'chassisNo', 'engineNo',
+            'color', 'remarks', 'userId', 'status', 'createdAt', 'updatedAt'
+          ])
+          && data.certificateNumber is string
+          && data.date is string
+          && data.makeBodyType is string
+          && data.importerName is string
+          && data.declarationNumber is string
+          && data.model is string
+          && data.country is string
+          && data.chassisNo is string
+          && data.engineNo is string
+          && data.color is string
+          && data.remarks is string
+          && data.userId is string
+          && data.status in ['Pending', 'In Progress', 'Cleared', 'Hold']
+          && data.createdAt is timestamp
+          && data.updatedAt is timestamp;
+      }
+
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && validCustomer();
+      allow update: if request.auth != null
+        && validCustomer()
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if request.auth != null;
+    }
+  }
+}
