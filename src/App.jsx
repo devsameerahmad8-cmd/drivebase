@@ -486,9 +486,6 @@ function LoginPage({ onLogin, onHome }) {
               {busy ? "Signing in…" : <>Sign in to Drivebase <Icon name="arrow" size={17} /></>}
             </Button>
           </form>
-          <div className="mt-[23px] border border-[#e0e7d8] bg-[#f2f7ec] p-[13px] text-[10px] leading-[1.7] text-[#49534b]">
-            Sign in with an account enabled for this Firebase project. Create or manage accounts in Firebase Authentication.
-          </div>
           <p className="mt-[22px] text-center">
             <button className="border-0 bg-transparent text-[11px] text-[#727d74] hover:text-[#3e7525]" onClick={onHome}>← Back to the homepage</button>
           </p>
