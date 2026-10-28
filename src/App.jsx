@@ -15,8 +15,14 @@ import {
 const statusStyles = {
   Pending: "text-[#876648] bg-[#f1e8e0]",
   "In Progress": "text-[#527d94] bg-[#eaf2f6]",
-  Cleared: "text-[#518160] bg-[#eaf4ec]",
+  Cleared: "text-[#a24238] bg-[#fff2ef]",
   Hold: "text-[#a24238] bg-[#fff2ef]",
+  Valid: "text-[#a24238] bg-[#fff2ef]",
+  Invalid: "text-[#a24238] bg-[#fff2ef]",
+  CLEARED: "text-[#a24238] bg-[#fff2ef]",
+  HOLD: "text-[#a24238] bg-[#fff2ef]",
+  VALID: "text-[#a24238] bg-[#fff2ef]",
+  INVALID: "text-[#a24238] bg-[#fff2ef]",
 };
 
 const certificateFields = [
@@ -998,7 +1004,7 @@ function CustomerRecordPage({ customerId }) {
       label,
       value: key === "date" ? customer.dateLabel || customer.date : customer[key],
       arabic,
-      status: key === "status" && ["VALID", "CLEARED"].includes(customer.status?.toUpperCase()),
+      status: key === "status" && ["VALID", "INVALID", "CLEARED", "HOLD"].includes(customer.status?.toUpperCase()),
     }))
     : [];
 
@@ -1055,7 +1061,7 @@ function CustomerRecordPage({ customerId }) {
                   <th scope="row" style={{ border: `1px solid ${certificateBorder}`, padding: "6px 8px", verticalAlign: "middle", textAlign: "left", fontFamily: certificateFont, fontSize: "14px", fontWeight: 400, lineHeight: "18px", color: "#000000", boxSizing: "border-box" }}>
                     {row.label}
                   </th>
-                  <td style={{ border: `1px solid ${certificateBorder}`, padding: "6px 8px", verticalAlign: "middle", textAlign: "center", fontFamily: certificateFont, fontSize: "14px", fontWeight: 700, lineHeight: "18px", color: row.status ? "#008000" : "#000000", whiteSpace: "normal", overflowWrap: "anywhere", boxSizing: "border-box" }}>
+                  <td style={{ border: `1px solid ${certificateBorder}`, padding: "6px 8px", verticalAlign: "middle", textAlign: "center", fontFamily: certificateFont, fontSize: "14px", fontWeight: 700, lineHeight: "18px", color: row.status ? "#a24238" : "#000000", whiteSpace: "normal", overflowWrap: "anywhere", boxSizing: "border-box" }}>
                     {row.value || ""}
                   </td>
                   <td lang="ar" dir="rtl" style={{ border: `1px solid ${certificateBorder}`, padding: "6px 8px", verticalAlign: "middle", textAlign: "right", fontFamily: certificateFont, fontSize: "14px", fontWeight: 400, lineHeight: "18px", color: "#000000", boxSizing: "border-box" }}>
