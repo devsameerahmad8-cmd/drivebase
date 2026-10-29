@@ -608,29 +608,29 @@ function Dashboard({ user, onLogout }) {
 
   return (
     <main className="flex min-h-screen bg-[#f5f6f2] text-[#19231e]">
-      <aside className="fixed inset-y-0 left-0 z-[5] flex w-[236px] flex-col bg-forest px-4 pb-[15px] pt-[25px] text-white max-[1050px]:w-[205px] max-[760px]:w-[62px] max-[760px]:items-center max-[760px]:px-[7px] max-[760px]:pb-2.5 max-[760px]:pt-[19px]">
-        <a className="mb-[52px] inline-flex items-center gap-2.5 pl-2 font-display text-[19px] font-extrabold tracking-[-1.1px] text-white max-[760px]:mb-[37px] max-[760px]:p-0" href="/">
+      <aside className="fixed inset-y-0 left-0 z-[5] flex w-[236px] flex-col bg-forest px-4 pb-[15px] pt-[25px] text-white max-[1050px]:w-[205px] max-[760px]:inset-x-0 max-[760px]:inset-y-auto max-[760px]:top-0 max-[760px]:h-[58px] max-[760px]:w-full max-[760px]:flex-row max-[760px]:items-center max-[760px]:justify-between max-[760px]:px-3 max-[760px]:py-0">
+        <a className="mb-[52px] inline-flex items-center gap-2.5 pl-2 font-display text-[19px] font-extrabold tracking-[-1.1px] text-white max-[760px]:mb-0 max-[760px]:p-0 max-[520px]:gap-0" href="/">
           <span className="grid h-[30px] w-[31px] place-items-center text-lime"><CarMark className="h-auto w-[29px]" /></span>
-          <span className="max-[760px]:hidden">drivebase<span className="text-[#78b83e]">.</span></span>
+          <span className="max-[520px]:hidden">drivebase<span className="text-[#78b83e]">.</span></span>
         </a>
         <div className="mb-3 px-[11px] font-mono text-[8px] tracking-[1.4px] text-[#73827a] max-[760px]:hidden">WORKSPACE</div>
-        <button className="my-0.5 flex h-[43px] items-center gap-3 rounded border-0 bg-[#273a32] px-[11px] text-left text-xs text-white shadow-[inset_2px_0_#bbf36b] max-[760px]:w-11 max-[760px]:justify-center max-[760px]:px-0 max-[760px]:shadow-none max-[760px]:text-[0px]">
-          <Icon name="dashboard" /> <span className="max-[760px]:hidden">Overview</span>
+        <button aria-current="page" className="my-0.5 flex h-[43px] items-center gap-3 rounded border-0 bg-[#273a32] px-[11px] text-left text-xs text-white shadow-[inset_2px_0_#bbf36b] max-[760px]:h-9 max-[760px]:gap-1.5 max-[760px]:px-2 max-[760px]:text-[9px] max-[760px]:shadow-none">
+          <Icon name="dashboard" size={16} /> <span>Overview</span>
         </button>
         <button
-          className="my-0.5 flex h-[43px] items-center gap-3 rounded border-0 bg-transparent px-[11px] text-left text-xs text-[#aebbb2] hover:bg-[#273a32] hover:text-white max-[760px]:hidden"
+          className="my-0.5 flex h-[43px] items-center gap-3 rounded border-0 bg-transparent px-[11px] text-left text-xs text-[#aebbb2] hover:bg-[#273a32] hover:text-white max-[760px]:h-9 max-[760px]:gap-1.5 max-[760px]:px-2 max-[760px]:text-[9px]"
           onClick={() => document.getElementById("customer-search")?.focus()}
         >
-          <Icon name="users" /> Customers <span className="ml-auto rounded-[10px] bg-[#405244] px-[7px] py-[3px] text-[9px] text-[#a9bd9b]">{customers.length}</span>
+          <Icon name="users" size={16} /> Customers <span className="ml-auto rounded-[10px] bg-[#405244] px-[7px] py-[3px] text-[9px] text-[#a9bd9b] max-[390px]:hidden">{customers.length}</span>
         </button>
-        <div className="mt-auto">
-          <div className="flex items-center gap-2.5 border-t border-[#304039] px-0.5 pb-[15px] pt-[17px] max-[760px]:justify-center max-[760px]:pt-[15px]">
+        <div className="mt-auto max-[760px]:mt-0">
+          <div className="flex items-center gap-2.5 border-t border-[#304039] px-0.5 pb-[15px] pt-[17px] max-[760px]:gap-1 max-[760px]:border-0 max-[760px]:p-0">
             <div className="grid size-[31px] place-items-center rounded-full bg-[#d5eeac] text-[9px] font-bold text-[#31472b]">{adminInitials}</div>
             <div className="max-[760px]:hidden">
               <strong className="block text-[10px]">{adminLabel}</strong>
               <span className="mt-1 block max-w-[120px] truncate text-[9px] text-[#87968c]">{user?.email || "Administrator"}</span>
             </div>
-            <button className="ml-auto border-0 bg-transparent p-[5px] text-[#9eaca2] hover:text-lime max-[760px]:hidden" aria-label="Sign out" onClick={onLogout}>
+            <button className="ml-auto border-0 bg-transparent p-[5px] text-[#9eaca2] hover:text-lime max-[760px]:ml-0" aria-label="Sign out" onClick={onLogout}>
               <Icon name="logout" size={17} />
             </button>
           </div>
@@ -640,17 +640,13 @@ function Dashboard({ user, onLogout }) {
         </div>
       </aside>
 
-      <section className="ml-[236px] w-[calc(100%-236px)] max-[1050px]:ml-[205px] max-[1050px]:w-[calc(100%-205px)] max-[760px]:ml-[62px] max-[760px]:w-[calc(100%-62px)]">
-        <header className="flex h-[65px] items-center justify-between border-b border-[#e2e5dd] bg-[#fafbf8] px-[4.1%] max-[760px]:h-[57px] max-[760px]:px-[15px]">
+      <section className="ml-[236px] w-[calc(100%-236px)] max-[1050px]:ml-[205px] max-[1050px]:w-[calc(100%-205px)] max-[760px]:ml-0 max-[760px]:w-full max-[760px]:pt-[58px]">
+        <header className="flex h-[65px] items-center justify-between border-b border-[#e2e5dd] bg-[#fafbf8] px-[4.1%] max-[760px]:hidden">
           <div className="flex items-center gap-[9px] text-[10px] text-[#929a93]">
             Workspace <Icon name="chevron" size={14} /> <strong className="font-semibold text-[#3a453e]">Overview</strong>
           </div>
           <div className="flex items-center gap-[17px] max-[760px]:gap-2">
             <span className="text-[10px] text-[#818981] max-[760px]:hidden">{new Date().toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</span>
-            <div className="grid size-[29px] place-items-center rounded-full bg-[#d5eeac] text-[9px] font-bold text-[#31472b]">{adminInitials}</div>
-            <button className="hidden place-items-center border-0 bg-transparent p-[5px] text-[#748078] max-[760px]:grid" onClick={onLogout}>
-              <Icon name="logout" size={17} />
-            </button>
           </div>
         </header>
 
