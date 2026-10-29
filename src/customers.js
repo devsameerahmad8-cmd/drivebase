@@ -1,16 +1,36 @@
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
   getDoc,
   onSnapshot,
+  runTransaction,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
 const customersRef = () => collection(db, "customers");
+const customerIdAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const customerIdByteLimit = 256 - (256 % customerIdAlphabet.length);
+
+function generateCustomerId() {
+  if (!globalThis.crypto?.getRandomValues) {
+    throw new Error("Secure random ID generation is unavailable in this browser.");
+  }
+
+  const id = [];
+  const bytes = new Uint8Array(64);
+  while (id.length < 35) {
+    globalThis.crypto.getRandomValues(bytes);
+    for (const byte of bytes) {
+      if (byte >= customerIdByteLimit) continue;
+      id.push(customerIdAlphabet[byte % customerIdAlphabet.length]);
+      if (id.length === 35) break;
+    }
+  }
+  return id.join("");
+}
 
 function formatDate(value) {
   if (!value) return "—";
@@ -132,12 +152,22 @@ export async function getCustomerById(customerId) {
 }
 
 export async function createCustomer(customer) {
-  const docRef = await addDoc(customersRef(), {
-    ...customerPayload(customer),
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
-  return docRef.id;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const customerId = generateCustomerId();
+    const customerRef = doc(db, "customers", customerId);
+    const created = await runTransaction(db, async (transaction) => {
+      const existing = await transaction.get(customerRef);
+      if (existing.exists()) return false;
+      transaction.set(customerRef, {
+        ...customerPayload(customer),
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+      return true;
+    });
+    if (created) return customerId;
+  }
+  throw new Error("Could not generate a unique customer ID. Please try again.");
 }
 
 export async function updateCustomer(customer) {
