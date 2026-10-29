@@ -13,15 +13,11 @@ import {
 } from "./customers";
 
 const statusStyles = {
-  Pending: "text-[#876648] bg-[#f1e8e0]",
-  "In Progress": "text-[#527d94] bg-[#eaf2f6]",
-  Cleared: "text-[#a24238] bg-[#fff2ef]",
-  Hold: "text-[#a24238] bg-[#fff2ef]",
-  Valid: "text-[#a24238] bg-[#fff2ef]",
-  Invalid: "text-[#a24238] bg-[#fff2ef]",
+  PENDING: "text-[#876648] bg-[#f1e8e0]",
+  "IN PROGRESS": "text-[#527d94] bg-[#eaf2f6]",
   CLEARED: "text-[#a24238] bg-[#fff2ef]",
   HOLD: "text-[#a24238] bg-[#fff2ef]",
-  VALID: "text-[#a24238] bg-[#fff2ef]",
+  VALID: "text-[#518160] bg-[#eaf4ec]",
   INVALID: "text-[#a24238] bg-[#fff2ef]",
 };
 
@@ -740,6 +736,8 @@ function Dashboard({ user, onLogout }) {
                   <option>All records</option>
                   <option>Pending</option>
                   <option>In Progress</option>
+                  <option>Valid</option>
+                  <option>Invalid</option>
                   <option>Cleared</option>
                   <option>Hold</option>
                 </select>
@@ -795,7 +793,7 @@ function Dashboard({ user, onLogout }) {
                         </div>
                       </td>
                       <td className="h-[62px] border-b border-[#edf0ea] px-[15px] text-[10px] max-[760px]:px-2.5">
-                        <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-xl px-2 py-[5px] text-[8px] ${statusStyles[customer.status] || statusStyles.Pending}`}>
+                        <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-xl px-2 py-[5px] text-[8px] ${statusStyles[customer.status?.toUpperCase()] || statusStyles.PENDING}`}>
                           <span className="size-[5px] rounded-full bg-current" />
                           {customer.status}
                         </span>
@@ -1001,7 +999,7 @@ function CustomerRecordPage({ customerId }) {
       label,
       value: key === "date" ? customer.dateLabel || customer.date : customer[key],
       arabic,
-      status: key === "status" && ["VALID", "INVALID", "CLEARED", "HOLD"].includes(customer.status?.toUpperCase()),
+      status: key === "status" ? customer.status?.toUpperCase() : "",
     }))
     : [];
 
@@ -1058,7 +1056,7 @@ function CustomerRecordPage({ customerId }) {
                   <th scope="row" style={{ border: `1px solid ${certificateBorder}`, padding: "6px 8px", verticalAlign: "middle", textAlign: "left", fontFamily: certificateFont, fontSize: "14px", fontWeight: 400, lineHeight: "18px", color: "#000000", boxSizing: "border-box" }}>
                     {row.label}
                   </th>
-                  <td style={{ border: `1px solid ${certificateBorder}`, padding: "6px 8px", verticalAlign: "middle", textAlign: "center", fontFamily: certificateFont, fontSize: "14px", fontWeight: 700, lineHeight: "18px", color: row.status ? "#a24238" : "#000000", whiteSpace: "normal", overflowWrap: "anywhere", boxSizing: "border-box" }}>
+                  <td style={{ border: `1px solid ${certificateBorder}`, padding: "6px 8px", verticalAlign: "middle", textAlign: "center", fontFamily: certificateFont, fontSize: "14px", fontWeight: 700, lineHeight: "18px", color: row.status === "VALID" ? "#518160" : ["INVALID", "CLEARED", "HOLD"].includes(row.status) ? "#a24238" : "#000000", whiteSpace: "normal", overflowWrap: "anywhere", boxSizing: "border-box" }}>
                     {row.value || ""}
                   </td>
                   <td lang="ar" dir="rtl" style={{ border: `1px solid ${certificateBorder}`, padding: "6px 8px", verticalAlign: "middle", textAlign: "right", fontFamily: certificateFont, fontSize: "14px", fontWeight: 400, lineHeight: "18px", color: "#000000", boxSizing: "border-box" }}>
@@ -1240,6 +1238,8 @@ function CustomerForm({ customer, onSave, onClose }) {
               <select className={`${fieldClass} cursor-pointer`} id="customer-status" value={form.status} onChange={(event) => update("status", event.target.value)}>
                 <option>Pending</option>
                 <option>In Progress</option>
+                <option>Valid</option>
+                <option>Invalid</option>
                 <option>Cleared</option>
                 <option>Hold</option>
               </select>

@@ -26,7 +26,7 @@ service cloud.firestore {
           && data.color is string
           && data.remarks is string
           && data.userId is string
-          && data.status in ['Pending', 'In Progress', 'Cleared', 'Hold']
+          && data.status in ['Pending', 'In Progress', 'Valid', 'Invalid', 'Cleared', 'Hold']
           && data.createdAt is timestamp
           && data.updatedAt is timestamp;
       }
